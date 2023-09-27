@@ -2,24 +2,23 @@
 
 #include "Characters/LMBaseCharacter.h"
 
-ALMBaseCharacter::ALMBaseCharacter()
+#include "Characters/LMCharacterInput.h"
+#include "Characters/LMCharacterMovement.h"
+
+ALMBaseCharacter::ALMBaseCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<ULMCharacterMovement>(CharacterMovementComponentName))
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+	bUseControllerRotationYaw = false;
+	
+	// Setup components
+	LMInputComponent = CreateDefaultSubobject<ULMCharacterInput>(TEXT("Character Input"));
+	LMMovementComponent = CastChecked<ULMCharacterMovement>(GetCharacterMovement());
 }
 
 void ALMBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void ALMBaseCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void ALMBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
 void ALMBaseCharacter::MoveCharacter(const FVector2D& MovementVector)

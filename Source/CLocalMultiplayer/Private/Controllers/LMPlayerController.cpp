@@ -2,43 +2,25 @@
 
 #include "Controllers/LMPlayerController.h"
 
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
 #include "Characters/LMBaseCharacter.h"
+#include "Characters/LMCharacterInput.h"
+#include "Utilities/LMLog.h"
 
 ALMPlayerController::ALMPlayerController()
 {
 }
 
-void ALMPlayerController::RequestMove(const FInputActionValue& Value)
+void ALMPlayerController::OnPossess(APawn* InPawn)
 {
-	const FVector2D MovementVector = Value.Get<FVector2D>();
+	Super::OnPossess(InPawn);
+
+	PlayerCharacter = Cast<ALMBaseCharacter>(GetCharacter());
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->MoveCharacter(MovementVector);
+		PlayerCharacter->GetCharacterInputComponent()->InitializeInputComponent(InputComponent);
 	}
-}
-
-void ALMPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// bShowMouseCursor = false;
-	PlayerCharacter = CastChecked<ALMBaseCharacter>(GetCharacter());
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	if (Subsystem)
+	else
 	{
-		Subsystem->AddMappingContext(DefaultInputMapping, 0);
-	}
-}
-
-void ALMPlayerController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-	
-	check(InputComponent);
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
-	{
-		EnhancedInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &ALMPlayerController::RequestMove);
+		LMLOG_WARNING("[ALMPlayerController] This controller is not attached to a ALMBaseCharacter")
 	}
 }
