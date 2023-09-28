@@ -5,8 +5,10 @@
 ULMCharacterMovement::ULMCharacterMovement()
 {
 	// Setup movement
+	/*
 	bOrientRotationToMovement = true;
 	bConstrainToPlane = true;
 	bSnapToPlaneAtStart = true;
-	bUseControllerDesiredRotation = false;
+	bUseControllerDesiredRotation = true;
+	*/
 }

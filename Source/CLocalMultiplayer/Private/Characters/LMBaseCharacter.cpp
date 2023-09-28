@@ -23,6 +23,7 @@ void ALMBaseCharacter::BeginPlay()
 
 void ALMBaseCharacter::MoveCharacter(const FVector2D& MovementVector)
 {
-	AddMovementInput(GetActorRightVector(), MovementVector.X);
-	AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+	// Quick movement code. 
+	AddMovementInput(FRotationMatrix(FRotator::ZeroRotator).GetUnitAxis(EAxis::X), MovementVector.X);
+	AddMovementInput(FRotationMatrix(FRotator::ZeroRotator).GetUnitAxis(EAxis::Y), -MovementVector.Y);
 }

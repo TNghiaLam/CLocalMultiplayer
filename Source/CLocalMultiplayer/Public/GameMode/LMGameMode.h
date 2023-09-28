@@ -18,4 +18,14 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Characters")
 	TSubclassOf<ALMBaseCharacter> CharacterClass;
+	
+	UPROPERTY(EditAnywhere, Category="Camera")
+	TSubclassOf<AActor> MainCameraClass;
+	
+	UPROPERTY(VisibleAnywhere, Category="Camera")
+	TObjectPtr<AActor> MainCameraRef;
+
+private:
+	void FindMainCameraRef();
+	void SpawnPlayers();
 };
